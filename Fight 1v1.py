@@ -18,6 +18,8 @@ _colorWhite = (255,255,255)
 _colorPlayer = (100,100,100)
 _colorMissile = (180,10,0)
 _colorLife = (225,0,0)
+_colorLifeGreen = (0,255,0)
+_colorLifeOrange = (200,100,0)
 _colorLifeBarBackground = (100,100,100)
 
 _colorWinnerBackground = (100,100,100)
@@ -49,10 +51,14 @@ def Play():
   global lifePlayerRight
   lifePlayerLeft = 3
   lifePlayerRight = 3
+  lifeChangeRight = 1
+  lifeChangeLeft = 1
 
   speed = 1
 
   winner = 0
+
+
 
   # Background
   fill_rect(0,0,500,500,_colorWhite)
@@ -174,6 +180,8 @@ def Play():
         and yMissilePlayerRight <= yPlayerLeft + HSizePlayer
         and yMissilePlayerRight + HSizeMissile >= yPlayerLeft
       ):
+        lifeChangeRight = 1
+        lifeChangeLeft = 1
         lifePlayerRight -= 1
 
     if keydown(KEY_FIVE):
@@ -233,41 +241,47 @@ def Play():
         and yMissilePlayerLeft + HSizeMissile >= yPlayerRight
         and yMissilePlayerLeft <= yPlayerRight + HSizePlayer
       ):
+        # activate
+        lifeChangeRight = 1
+        lifeChangeLeft = 1
         lifePlayerLeft -= 1
-
+    
     # Life Player Left
-    if lifePlayerLeft == 3:
-      fill_rect(295,4,15,11,_colorLife)
-      fill_rect(275,4,15,11,_colorLife)
-      fill_rect(255,4,15,11,_colorLife)
-    if lifePlayerLeft == 2:      
-      fill_rect(295,4,15,11,_colorLife)
-      fill_rect(275,4,15,11,_colorLife)
-      fill_rect(255,4,15,11,_colorLifeBarBackground)
-    if lifePlayerLeft == 1:      
-      fill_rect(295,4,15,11,_colorLife)
-      fill_rect(275,4,15,11,_colorLifeBarBackground)
-      fill_rect(255,4,15,11,_colorLifeBarBackground)
-    if lifePlayerLeft == 0:
-      winner = 1
-      Winner()
+    if lifeChangeRight == 1:
+      if lifePlayerLeft == 3:
+        fill_rect(252,2,61,15,_colorBlack)
+        fill_rect(254,4,57,11,_colorLifeGreen)
+        lifeChangeRight = 0
+      if lifePlayerLeft == 2:      
+        fill_rect(252,2,61,15,_colorBlack)
+        fill_rect(274,4,37,11,_colorLifeOrange)
+        lifeChangeRight = 0
+      if lifePlayerLeft == 1:      
+        fill_rect(252,2,61,15,_colorBlack)
+        fill_rect(294,4,17,11,_colorLife)
+        lifeChangeRight = 0
+      if lifePlayerLeft == 0:
+        winner = 1
+        lifeChangeRight = 0
+        Winner()
 
     # Life Player Right
-    if lifePlayerLeft > 0:
+    if lifeChangeLeft == 1:
       if lifePlayerRight == 3:
-        fill_rect(10,4,15,11,_colorLife)
-        fill_rect(30,4,15,11,_colorLife)
-        fill_rect(50,4,15,11,_colorLife)
-      if lifePlayerRight == 2:      
-        fill_rect(10,4,15,11,_colorLife)
-        fill_rect(30,4,15,11,_colorLife)
-        fill_rect(50,4,15,11,_colorLifeBarBackground)
+        fill_rect(7,2,61,15,_colorBlack)
+        fill_rect(9,4,57,11,_colorLifeGreen)
+        lifeChangeLeft = 0
+      if lifePlayerRight == 2:
+        fill_rect(7,2,61,15,_colorBlack)
+        fill_rect(9,4,35,11,_colorLifeOrange)
+        lifeChangeLeft = 0
       if lifePlayerRight == 1:      
-        fill_rect(10,4,15,11,_colorLife)
-        fill_rect(30,4,15,11,_colorLifeBarBackground)
-        fill_rect(50,4,15,11,_colorLifeBarBackground)
+        fill_rect(7,2,61,15,_colorBlack)
+        fill_rect(9,4,17,11,_colorLife)
+        lifeChangeLeft = 0
       if lifePlayerRight == 0:
         winner = 1
+        lifeChangeLeft = 0
         Winner()
 
 def Winner():
